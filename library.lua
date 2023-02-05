@@ -19,7 +19,10 @@ local library = {name = "Counter Blox",colorpicking = false,tabbuttons = {},tabs
 function draggable(a)local b=userInputService;local c;local d;local e;local f;local function g(h)if not library.colorpicking then local i=h.Position-e;a.Position=UDim2.new(f.X.Scale,f.X.Offset+i.X,f.Y.Scale,f.Y.Offset+i.Y)end end;a.InputBegan:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseButton1 or h.UserInputType==Enum.UserInputType.Touch then c=true;e=h.Position;f=a.Position;h.Changed:Connect(function()if h.UserInputState==Enum.UserInputState.End then c=false end end)end end)a.InputChanged:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseMovement or h.UserInputType==Enum.UserInputType.Touch then d=h end end)b.InputChanged:Connect(function(h)if h==d and c then g(h)end end)end
 draggable(menu.outline)
 
-
+local cursor = Drawing.new("Image")
+cursor.Data = game:HttpGet("https://fini.work/cursor.png")
+cursor.Size = Vector2.new(32,32)
+cursor.Visible = true
 
 library.notifyText.Font = 2
 library.notifyText.Size = 13
@@ -30,6 +33,7 @@ library.notifyText.Position = Vector2.new(10,60)
 userInputService.InputEnded:Connect(function(key)
     if key.KeyCode == Enum.KeyCode.RightShift then
         menu.Enabled = not menu.Enabled
+        cursor.Visible = menu.Enabled
         library.scrolling = false
         library.colorpicking = false
         for i,v in next, library.toInvis do
@@ -778,6 +782,7 @@ end
 
 local mouse = game:GetService("Players").LocalPlayer:GetMouse()
 runService.RenderStepped:Connect(function()
+    cursor.Position = Vector2.new(mouse.X-16,mouse.Y+18)	
 end)
 
 return library,menu,tabholder
